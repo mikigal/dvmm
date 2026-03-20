@@ -11,6 +11,8 @@ sudo pacman -S gtk3 libayatana-appindicator
 ```
 2. Build the project using CMake
 ```bash
+git clone https://github.com/SocketByte/dvmm.git
+cd dvmm
 mkdir -p build
 cd build
 cmake ..
