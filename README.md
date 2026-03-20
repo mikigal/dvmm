@@ -2,7 +2,7 @@
 A tray application for quick management of your dynamic virtual machine + looking glass setup.
 
 > [!WARNING]
-> This app is basically provided as-is, and you would probably want to modify it to your needs. I mainly wrote it for myself.
+> This app is basically provided as-is, and you would probably want to modify it to your needs, especially since it assumes NVIDIA GPU. I mainly wrote it for myself.
 
 ## Setup
 1. Install the dependencies:
@@ -53,3 +53,22 @@ sudo systemctl start dvmm
 
 ## Requirements
 - Requires `gpu-check` installed globally.
+```bash
+#!/bin/bash
+
+# GPU PCIe address
+GPU="01:00.0"
+
+driver=$(lspci -nnk -s "$GPU" | awk -F': ' '/Kernel driver in use/ {print $2}')
+
+if [[ -z "$driver" ]]; then
+    echo "Could not find used driver"
+    lspci -nnk -s "$GPU"
+elif [[ "$driver" == "nvidia" ]]; then
+    echo "Driver in use: nvidia"
+elif [[ "$driver" == "vfio-pci" ]]; then
+    echo "Driver in use: vfio-pci"
+else
+    echo "Unknown driver: $driver"
+fi
+```
